@@ -5,12 +5,14 @@ on:
     branches:
       - main
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
-    permissions:
-      contents: write
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -25,8 +27,11 @@ jobs:
           hugo-version: '0.157.0'
           extended: true
 
+      - name: Check Hugo version
+        run: hugo version
+
       - name: Build
-        run: hugo
+        run: hugo --minify
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
